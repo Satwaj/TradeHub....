@@ -1,0 +1,50 @@
+.btn {
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* 1️⃣ Card / Program Button */
+.btn-card {
+  padding: 10px 30px;
+  font-size: 1.3rem;
+  color: rgb(15, 14, 14);
+  background: #f7f7f9;
+  border-radius: 10px;
+  box-shadow: 0 20px 50px rgba(75, 147, 249, 0.834);
+
+  &:hover {
+    transform: scale(1.05);
+    color: black;
+    background: #3b83f6cc;
+    box-shadow: 0 20px 50px rgba(249, 75, 246, 0.442);
+  }
+}
+
+/* 2️⃣ Pill / Badge Button */
+.btn-pill {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgb(12, 12, 12);
+  background: #b9e843d3;
+  border-radius: 20px;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* 3️⃣ Primary CTA Button */
+.btn-primary {
+  padding: 12px 28px;
+  border-radius: 9999px;
+  background: #3b82f6;
+  color: white;
+
+  &:hover {
+    background: #2563eb;
+    transform: scale(1.03);
+  }
+}

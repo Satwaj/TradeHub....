@@ -1,0 +1,39 @@
+.courses-page__hero {
+  padding: calc(var(--navbar-height) + var(--space-4xl)) 0 var(--space-4xl);
+  text-align: center;
+  background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.courses-page__badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-accent);
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-xl);
+}
+
+.courses-page__hero h1 {
+  font-size: var(--text-5xl);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-lg);
+  color: var(--text-primary);
+}
+
+.courses-page__hero p {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .courses-page__hero h1 {
+    font-size: var(--text-3xl);
+  }
+}

@@ -1,0 +1,99 @@
+.who-join__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.who-join__card {
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.who-join__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-card);
+  color: var(--color-primary-light);
+  margin-bottom: 0.75rem;
+  transition: all var(--transition-base);
+}
+
+.who-join__card:hover .who-join__icon-wrap {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: var(--color-accent);
+}
+
+.who-join__label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.who-join__badge-wrap {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
+}
+
+.who-join__badge-wrap.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.who-join__no-prior {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(34, 211, 238, 0.15));
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-accent);
+  animation: gentle-pulse 3s ease-in-out infinite;
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.2); }
+  50% { box-shadow: 0 0 30px 5px rgba(99, 102, 241, 0.15); }
+}
+
+.who-join__sparkle {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 1024px) {
+  .who-join__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .who-join__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  .who-join__card { padding: 1.25rem 0.75rem; }
+  .who-join__icon { font-size: 2rem; }
+
+  .who-join__no-prior {
+    font-size: var(--text-sm);
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .who-join__grid { grid-template-columns: repeat(2, 1fr); }
+}

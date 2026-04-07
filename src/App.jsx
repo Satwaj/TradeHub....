@@ -1,35 +1,28 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import './app.scss'
-
-import Navbar from "./pages/Navbar";
-import Home from "./pages/Home";
-import Masterclass from "./pages/Masterclass";
-import Coursess from "./pages/Coursess";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Navbar from './components/layout/Navbar';
+import HomePage from './pages/HomePage';
+import CoursesPage from './pages/CoursesPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 const App = () => {
   return (
-    <BrowserRouter>
-      {/* NAVBAR ALWAYS VISIBLE */}
-      <div className="app">
+    <AuthProvider>
+      <BrowserRouter>
         <Navbar />
-
-        {/* ROUTES */}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/masterclass" element={<Masterclass />} />
-
-          <Route path="/coursess" element={<Coursess />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
-        
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 

@@ -1,0 +1,112 @@
+.vm__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.vm__card {
+  padding: var(--space-2xl);
+  text-align: center;
+}
+
+/* Icon wrap */
+.vm__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-lg);
+  border: 1px solid var(--border-card);
+}
+
+.vm__icon-wrap--primary {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--color-primary-light);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.vm__icon-wrap--accent {
+  background: rgba(34, 211, 238, 0.1);
+  color: var(--color-accent);
+  border-color: rgba(34, 211, 238, 0.2);
+}
+
+.vm__label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-sm);
+}
+
+.vm__text {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Results */
+.vm__results-card {
+  padding: var(--space-2xl);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.vm__results-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: var(--space-xl);
+}
+
+.vm__trophy-icon {
+  color: var(--color-warning);
+}
+
+.vm__results-title {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.vm__results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.vm__result-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  padding: 0.875rem 1rem;
+  background: var(--bg-glass);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-card);
+  transition: all var(--transition-base);
+}
+
+.vm__result-item:hover {
+  border-color: var(--color-success);
+  background: rgba(16, 185, 129, 0.05);
+  color: var(--text-primary);
+}
+
+.vm__result-icon {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .vm__cards { grid-template-columns: 1fr; }
+  .vm__results-grid { grid-template-columns: 1fr; }
+  .vm__card { padding: var(--space-xl); }
+  .vm__results-card { padding: var(--space-xl); }
+}

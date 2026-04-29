@@ -1,16 +1,21 @@
-import { useState } from 'react';
-import { MapPin, Phone, Mail, Send, CheckCircle2 } from 'lucide-react';
-import { useInView } from '../hooks/useAnimations';
-import { SITE_CONFIG } from '../constants/siteData';
-import { cn } from '../utils/helpers';
-import PageHero from '../components/ui/PageHero';
-import Button from '../components/ui/Button';
-import Card from '../components/ui/Card';
-import Footer from '../components/layout/Footer';
-import './ContactPage.css';
+import { useState } from "react";
+import { MapPin, Phone, Mail, Send, CheckCircle2 } from "lucide-react";
+import { useInView } from "../hooks/useAnimations";
+import { SITE_CONFIG } from "../constants/siteData";
+import { cn } from "../utils/helpers";
+import PageHero from "../components/ui/PageHero";
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import Footer from "../components/layout/Footer";
+import "./ContactPage.css";
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
   const [submitted, setSubmitted] = useState(false);
   const [ref, isInView] = useInView();
 
@@ -18,11 +23,24 @@ const ContactPage = () => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    try {
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 4000);
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        console.error("Failed to submit form");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -38,11 +56,17 @@ const ContactPage = () => {
       {/* Content */}
       <section className="contact-page">
         <div className="container section-padding">
-          <div ref={ref} className={cn('contact-page__wrapper', isInView && 'visible')}>
+          <div
+            ref={ref}
+            className={cn("contact-page__wrapper", isInView && "visible")}
+          >
             {/* Info */}
             <div className="contact-page__info">
               <h2>Get in Touch</h2>
-              <p>Reach out to us through any of the channels below. We're available for both online and offline consultations.</p>
+              <p>
+                Reach out to us through any of the channels below. We're
+                available for both online and offline consultations.
+              </p>
 
               <div className="contact-page__info-cards">
                 <Card variant="glass" className="contact-page__info-card">
@@ -79,7 +103,8 @@ const ContactPage = () => {
               <h3>Send Us a Message</h3>
               {submitted && (
                 <div className="contact-page__success">
-                  <CheckCircle2 size={16} strokeWidth={2} /> Thank you! We'll reach out to you soon.
+                  <CheckCircle2 size={16} strokeWidth={2} /> Thank you! We'll
+                  reach out to you soon.
                 </div>
               )}
               <form className="contact-page__form" onSubmit={handleSubmit}>
@@ -130,7 +155,12 @@ const ContactPage = () => {
                     required
                   />
                 </div>
-                <Button variant="accent" size="lg" type="submit" className="contact-page__submit">
+                <Button
+                  variant="accent"
+                  size="lg"
+                  type="submit"
+                  className="contact-page__submit"
+                >
                   <Send size={16} /> Send Message
                 </Button>
               </form>

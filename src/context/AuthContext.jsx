@@ -1,8 +1,8 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from "react";
 
 const AuthContext = createContext(null);
 
-const STORAGE_KEY = 'tradehub_user';
+const STORAGE_KEY = "tradehub_user";
 
 // Helper to get persisted user
 const getPersistedUser = () => {
@@ -16,45 +16,60 @@ const getPersistedUser = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(getPersistedUser);
-  const [authError, setAuthError] = useState('');
+  const [authError, setAuthError] = useState("");
 
   const persistUser = (userData) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
     setUser(userData);
   };
 
-  const register = useCallback(({ name, email, password }) => {
-    setAuthError('');
-    // Check if user already exists
-    const existing = localStorage.getItem(`tradehub_account_${email}`);
-    if (existing) {
-      setAuthError('An account with this email already exists.');
+  const register = useCallback(async ({ name, email, password }) => {
+    setAuthError("");
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setAuthError(data.message || "Registration failed");
+        return false;
+      }
+      // Log them in after successful registration
+      const userData = { name, email, avatar: name.charAt(0).toUpperCase() };
+      persistUser(userData);
+      return true;
+    } catch (err) {
+      setAuthError("Network error. Please try again later.");
       return false;
     }
-    // Save account
-    const account = { name, email, password };
-    localStorage.setItem(`tradehub_account_${email}`, JSON.stringify(account));
-    // Log them in
-    const userData = { name, email, avatar: name.charAt(0).toUpperCase() };
-    persistUser(userData);
-    return true;
   }, []);
 
-  const login = useCallback(({ email, password }) => {
-    setAuthError('');
-    const raw = localStorage.getItem(`tradehub_account_${email}`);
-    if (!raw) {
-      setAuthError('No account found with this email.');
+  const login = useCallback(async ({ email, password }) => {
+    setAuthError("");
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setAuthError(data.message || "Login failed");
+        return false;
+      }
+      const userData = {
+        name: data.user.name,
+        email: data.user.email,
+        avatar: data.user.name.charAt(0).toUpperCase(),
+      };
+      persistUser(userData);
+      return true;
+    } catch (err) {
+      setAuthError("Network error. Please try again later.");
       return false;
     }
-    const account = JSON.parse(raw);
-    if (account.password !== password) {
-      setAuthError('Incorrect password. Please try again.');
-      return false;
-    }
-    const userData = { name: account.name, email: account.email, avatar: account.name.charAt(0).toUpperCase() };
-    persistUser(userData);
-    return true;
   }, []);
 
   const logout = useCallback(() => {
@@ -62,10 +77,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   }, []);
 
-  const clearError = useCallback(() => setAuthError(''), []);
+  const clearError = useCallback(() => setAuthError(""), []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, authError, clearError }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, register, authError, clearError }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -73,6 +90,6 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used inside AuthProvider');
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
   return ctx;
 };

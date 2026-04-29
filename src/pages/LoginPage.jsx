@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, LogIn } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import Button from '../components/ui/Button';
-import './AuthPage.css';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, LogIn } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import Button from "../components/ui/Button";
+import "./AuthPage.css";
 
 const LoginPage = () => {
   const { login, authError, clearError } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -20,10 +20,9 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 600)); // simulate async
-    const ok = login(form);
+    const ok = await login(form);
     setLoading(false);
-    if (ok) navigate('/');
+    if (ok) navigate("/");
   };
 
   return (
@@ -36,7 +35,9 @@ const LoginPage = () => {
         {/* Logo */}
         <Link to="/" className="auth-page__logo">
           <img src="/logo.png" alt="TradeHub" />
-          <span>Trade<strong>Hub</strong></span>
+          <span>
+            Trade<strong>Hub</strong>
+          </span>
         </Link>
 
         <h1 className="auth-page__title">Welcome Back</h1>
@@ -68,7 +69,7 @@ const LoginPage = () => {
             <div className="auth-page__input-wrap">
               <input
                 id="login-password"
-                type={showPass ? 'text' : 'password'}
+                type={showPass ? "text" : "password"}
                 name="password"
                 value={form.password}
                 onChange={handleChange}
@@ -97,13 +98,15 @@ const LoginPage = () => {
             {loading ? (
               <span className="auth-page__spinner" />
             ) : (
-              <><LogIn size={16} /> Sign In</>
+              <>
+                <LogIn size={16} /> Sign In
+              </>
             )}
           </Button>
         </form>
 
         <p className="auth-page__footer-text">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <Link to="/register" className="auth-page__link">
             Create one free →
           </Link>

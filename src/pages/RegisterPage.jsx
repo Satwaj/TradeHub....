@@ -1,39 +1,47 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, UserPlus } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import Button from '../components/ui/Button';
-import './AuthPage.css';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, UserPlus } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import Button from "../components/ui/Button";
+import "./AuthPage.css";
 
 const RegisterPage = () => {
   const { register, authError, clearError } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirm: "",
+  });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [localError, setLocalError] = useState('');
+  const [localError, setLocalError] = useState("");
 
   const handleChange = (e) => {
     clearError();
-    setLocalError('');
+    setLocalError("");
     setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password.length < 6) {
-      setLocalError('Password must be at least 6 characters.');
+      setLocalError("Password must be at least 6 characters.");
       return;
     }
     if (form.password !== form.confirm) {
-      setLocalError('Passwords do not match.');
+      setLocalError("Passwords do not match.");
       return;
     }
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 700));
-    const ok = register({ name: form.name, email: form.email, password: form.password });
+    const ok = await register({
+      name: form.name,
+      email: form.email,
+      password: form.password,
+    });
     setLoading(false);
-    if (ok) navigate('/');
+    if (ok) navigate("/");
   };
 
   const error = localError || authError;
@@ -46,11 +54,15 @@ const RegisterPage = () => {
       <div className="auth-page__card">
         <Link to="/" className="auth-page__logo">
           <img src="/logo.png" alt="TradeHub" />
-          <span>Trade<strong>Hub</strong></span>
+          <span>
+            Trade<strong>Hub</strong>
+          </span>
         </Link>
 
         <h1 className="auth-page__title">Create Account</h1>
-        <p className="auth-page__subtitle">Join Nashik's No.1 Trading Institute</p>
+        <p className="auth-page__subtitle">
+          Join Nashik's No.1 Trading Institute
+        </p>
 
         {error && (
           <div className="auth-page__error" role="alert">
@@ -92,7 +104,7 @@ const RegisterPage = () => {
             <div className="auth-page__input-wrap">
               <input
                 id="reg-password"
-                type={showPass ? 'text' : 'password'}
+                type={showPass ? "text" : "password"}
                 name="password"
                 value={form.password}
                 onChange={handleChange}
@@ -115,7 +127,7 @@ const RegisterPage = () => {
             <label htmlFor="reg-confirm">Confirm Password</label>
             <input
               id="reg-confirm"
-              type={showPass ? 'text' : 'password'}
+              type={showPass ? "text" : "password"}
               name="confirm"
               value={form.confirm}
               onChange={handleChange}
@@ -135,13 +147,15 @@ const RegisterPage = () => {
             {loading ? (
               <span className="auth-page__spinner" />
             ) : (
-              <><UserPlus size={16} /> Create Account</>
+              <>
+                <UserPlus size={16} /> Create Account
+              </>
             )}
           </Button>
         </form>
 
         <p className="auth-page__footer-text">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link to="/login" className="auth-page__link">
             Sign in →
           </Link>
